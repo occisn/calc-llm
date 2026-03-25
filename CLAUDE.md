@@ -17,8 +17,7 @@ Related projects:
 
 ## Solving a Math Problem
 
-See `docs/calc-reference.md` for the full methodology, rules, and command reference.
-See `docs/examples.md` for 8 worked Project Euler solutions.
+When the user poses a math problem, **automatically read** `docs/calc-reference.md` and `docs/examples.md` before writing any macro. Do not wait for the user to mention these files — they are always the starting point.
 
 ## Commands
 
