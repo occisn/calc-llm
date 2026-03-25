@@ -20,27 +20,12 @@ Or test from the command line:
 emacs --batch -l elisp/calc-runner.el -f calc-runner--main "2 RET 3 +"
 ```
 
-## Testing harness
-
-A Python + Elisp bridge runs Calc macros via `emacs --batch` and verifies results automatically. This is a development tool, not the main purpose of the project.
-
-**Requirements:** GNU Emacs 30+, Python 3.10+
-
-```bash
-pip install -r requirements.txt
-python3 -m pytest tests/ -v
-```
-
 ## Project structure
 
 ```
 docs/calc-reference.md  -- Calc RPN command reference
 docs/examples.md        -- 8 worked examples
 elisp/calc-runner.el    -- Elisp bridge (emacs --batch)
-src/runner.py           -- Python CalcRunner class
-src/problems.py         -- Problem definitions (10 Project Euler solutions)
-tests/test_runner.py    -- Runner unit tests
-tests/test_problems.py  -- Parametrized problem tests
 ```
 
 ## Related projects
