@@ -46,7 +46,11 @@ e          scientific notation (e.g. "6.02e23")
 :          fraction separator (e.g. "3:4" enters 3/4)
 @          HMS form entry (e.g. "2@ 30' 15\"" enters 2 deg 30 min 15 sec)
 ..         interval separator (e.g. "[1 .. 10]")
+p          error form separator (e.g. "100 p 0.5" enters 100 +/- 0.5)
+M          modulo form (e.g. "6 M 24" enters 6 mod 24)
 ```
+
+**Date forms:** Enter dates as `<Jul 4, 1992>`. Special values: `inf` (infinity), `nan` (indeterminate).
 
 **Important:** `SPC` is needed only between two consecutive number entries. When a number is followed by an operator, the number is auto-finalized.
 
@@ -55,18 +59,24 @@ e          scientific notation (e.g. "6.02e23")
 ```
 RET          duplicate top element (copy #1)
 C-u 2 RET   duplicate top 2 elements
-C-j          copy element #2 to top
+C-u N RET   duplicate top N elements
+C-j          copy element #2 to top (synonym: LFD)
 C-u N C-j    copy element #N to top
 TAB          swap elements #1 and #2
 C-u N TAB    rotate down: #1 moves to position #N, elements #2..#N move up
+M-TAB        rotate up: element #3 moves to #1 (synonym: C-M-i)
 C-u N C-M-i  rotate up: element #N moves to #1, elements #1..#(N-1) move down
 DEL          delete top element
 C-d          synonym for DEL
 M-DEL        delete element #2
 C-u N M-DEL  delete element #N
 C-u 0 DEL   clear entire stack
+C-u 0 TAB   reverse entire stack
 M-RET        push last arguments (the args consumed by the previous command)
 K            keep-arguments prefix: next command does not consume its stack args
+U            undo last operation
+D            redo last operation
+w            display recent error messages
 ```
 
 **Prefix argument `~`:** uses top-of-stack as the numeric prefix (consuming it). E.g. `~ C-j` copies the element at position given by the (consumed) top value.
@@ -117,6 +127,10 @@ f [    decrement by 1 (or by prefix arg)
 f ]    increment by 1 (or by prefix arg)
 f M    extract mantissa of float
 f X    extract exponent of float
+c 2    round off last two digits
+c F    convert to fraction
+c f    convert to float
+c %    convert to percentage
 ```
 
 ## 4. Logarithms and Exponentials
@@ -156,6 +170,7 @@ H k e           Euler polynomial E_n(x)
 k s             Stirling number of the first kind
 H k s           Stirling number of the second kind
 k r             random number (range M from stack)
+k h             shuffle (random permutation of vector)
 k a             random-again: repeat last random with same params
 ```
 
@@ -184,6 +199,7 @@ a {     membership test: 1 if a is in set b
 
 ```
 v x N RET   iota: create vector [1, 2, ..., N]
+C-u v x     counted vector: n values from a with step b — consumes 3 (n, a, b)
 N v p       pack top N elements into a vector
 v r N RET   extract element N from vector (1-indexed)
 v l         length of vector
@@ -245,6 +261,7 @@ v a         arrange vector into matrix with N columns (prefix arg = N)
 v t         transpose matrix
 V J         conjugate transpose
 V D         determinant of square matrix
+&           matrix inverse (same key as reciprocal)
 V T         trace of square matrix
 V L         LU decomposition → vector of 3 matrices
 V C         cross product of two 3-element vectors
@@ -323,6 +340,19 @@ Z #     query user for input during macro (pushes result to stack)
 Z C-g   break out of a loop or conditional immediately
 ```
 
+### Programming
+
+```
+C-x (   begin recording a keyboard macro
+C-x )   end recording a keyboard macro
+X       replay keyboard macro
+C-x * m read region as written-out macro
+Z K     put finished macro on a key
+Z F     define function with formula
+Z E     edit definition
+Z P     record user-defined command permanently
+```
+
 ## 10. Store and Recall
 
 ```
@@ -343,6 +373,10 @@ s [            decrement variable by 1
 s ]            increment variable by 1
 s x            exchange variable value with top of stack
 s u            unstore (clear) a variable
+s e            edit a variable
+s l            let variable equal a value in formula (s l x=val)
+s d            declare properties of variable (pos, int, real, scalar, [a..b])
+s p            record variable value permanently
 ```
 
 ## 11. Constants
@@ -452,7 +486,27 @@ I u C          population covariance
 H u C          linear correlation coefficient
 ```
 
-## 16. Probability Distributions
+## 16. Financial Functions
+
+```
+M-%            enter percentage
+c %            convert to percentage
+b %            percentage change
+b P            present value
+b F            future value
+b T            rate of return
+b #            number of payments
+b M            size of payments
+b N            net present value
+b I            internal rate of return
+b S            straight-line depreciation
+b Y            sum-of-years'-digits depreciation
+b D            double declining balance depreciation
+```
+
+Above computations assume payments at end of period. Use `I` prefix for beginning of period, or `H` for a lump sum investment.
+
+## 17. Probability Distributions
 
 ```
 k B            upper-tail binomial — consumes 3 (n, p, x)
@@ -469,7 +523,7 @@ k T            upper-tail Student's t — consumes 2 (v, x)
 I k T          lower-tail Student's t
 ```
 
-## 17. Advanced Math Functions
+## 18. Advanced Math Functions
 
 ```
 f g            gamma function Γ(x)
@@ -486,7 +540,7 @@ f j            Bessel J function J_n(x) — consumes 2
 f y            Bessel Y function Y_n(x) — consumes 2
 ```
 
-## 18. Date and Time
+## 19. Date and Time
 
 ```
 t N            push current date/time
@@ -502,7 +556,7 @@ t +            add business days — consumes 2
 t -            subtract business days — consumes 2
 ```
 
-## 19. Units and Conversions
+## 20. Units and Conversions
 
 ```
 u s            simplify units expression
@@ -512,30 +566,63 @@ u b            convert to base (SI) units
 u t            convert temperature (absolute)
 u r            remove units from expression
 u x            extract units only from expression
+u v            view units table
 ```
 
-## 20. Algebraic Manipulation (RPN-usable)
+**Common units:**
+```
+distance:    m, cm, mm, km; in, ft, mi, mfi; point, lyr
+volume:      l or L, ml; gal, qt, pt, cup, floz, tbsp, tsp
+mass:        g, mg, kg, t; lb, oz, ton
+time:        s or sec, ms, us, ns, min, hr, day, wk
+temperature: degC, degF, K
+```
+
+## 21. Algebraic Manipulation (RPN-usable)
 
 ```
 a v            evaluate/simplify with default rules
 =              evaluate, substituting stored variable values
 N              evaluate numerically (disable Symbolic mode temporarily)
 a s            simplify formula
+a n            put formula into rational form
 a e            extended (aggressive) simplification
+a x            expand terms
+a c            collect terms
+a f            factor expression
+a a            partial fractions
+a \            polynomial quotient — consumes 2
+a %            polynomial remainder — consumes 2
+a g            polynomial GCD — consumes 2
 a d            derivative w.r.t. prompted variable
 a i            indefinite integral w.r.t. prompted variable
+a I            numerical integration over a range
 a t            Taylor series expansion
-a S            solve equation for prompted variable
+a S            solve equation for prompted variable (principal solution)
+a P            list of solutions
+H a S          generic solution
+a M            apply function to both sides of equation
 a R            numerical root-finding — consumes 2 (guess, expr)
 a N            numerical minimization — consumes 2
+a X            numerical maximization — consumes 2
 a F            curve fit (linear regression etc.) — consumes 2 (x-data, y-data)
 a +            summation over variable (prompts for var and limits)
 a -            alternating sum
 a *            product over variable
 a T            tabulate expression over range → vector
+a r            rewrite formula using rules
 ```
 
-## 21. Display and Formatting
+**Rewrite examples:**
+```
+a r a*b + a*c := a*(b+c)
+a r sin(x)^2 := 1-cos(x)^2
+a r cos(n pi) := 1 :: integer(n) :: n%2 = 0
+a r [f(0) := 1, f(n) := n f(n-1) :: n > 0]
+```
+Put rules in `EvalRules` to apply automatically, or in `AlgSimpRules` to apply during `a s`.
+
+## 22. Display and Formatting
 
 ```
 p              set floating-point precision (prompts, or prefix arg)
@@ -547,15 +634,24 @@ d e            engineering notation (exponent multiple of 3)
 d n            normal float format (default)
 d ,            toggle digit grouping (e.g. 1,000,000)
 d g            set grouping size
+d l            toggle line numbers on/off
+d B            "Big" display mode (2D rendered formulas)
+d N            Normal language mode (default)
+d U            Unformatted mode
 d c            toggle rectangular/polar display of complex numbers
 d i            toggle i/j notation for complex numbers
 d "            toggle string display (vectors of integers as quoted strings)
+t d            toggle trail display on/off
 m f            toggle Fraction mode (results as fractions instead of floats)
 m s            toggle Symbolic mode (leave sqrt(2) unevaluated, etc.)
 m i            toggle Infinite mode (allow inf in results)
+m O            suppress evaluation of formulas
+m D            return to default evaluation rules
+m a            set mode where algebraic entry used by default
+m m            record mode settings permanently
 ```
 
-## 22. Strings
+## 23. Strings
 
 ```
 "              enter a string (stored as vector of ASCII codes)
@@ -565,7 +661,7 @@ Strings are vectors of integers (0–255). Use vector operations for manipulatio
 
 ---
 
-## 23. Common Idioms
+## 24. Common Idioms
 
 ### Number of digits
 ```
