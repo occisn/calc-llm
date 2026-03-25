@@ -1,40 +1,35 @@
 # calc-llm
 
-Teaching an LLM to solve math problems using [GNU Emacs Calc](https://www.gnu.org/software/emacs/manual/html_mono/calc.html) through stack-based RPN keyboard macros. Algebraic expressions are avoided, even if equivalences may be proposed.
+Solve math problems with [GNU Emacs Calc](https://www.gnu.org/software/emacs/manual/html_mono/calc.html) RPN keyboard macros, powered by an LLM.
 
-In the spirit of [calc-problem-solving](https://github.com/occisn/calc-problem-solving), which solves Project Euler puzzles with Calc keyboard macros. See also [cl-lisp2calc](https://github.com/occisn/cl-lisp2calc), a Common Lisp to Calc compiler.
+## Usage
 
-## What's inside
+Give a math problem to an LLM (e.g. Claude). The LLM uses the reference docs and examples as context to produce a Calc RPN macro that solves it. The macro can then be tested within Emacs, either interactively or via the included batch harness.
 
+For best results, point the LLM at:
 - **[Calc RPN command reference](docs/calc-reference.md)** -- methodology, rules, and comprehensive command cheat sheet with reusable idioms
 - **[8 worked examples](docs/examples.md)** -- Project Euler solutions with annotated and compact macros
-- **Testing harness** -- Python + Elisp bridge that runs Calc macros via `emacs --batch` and verifies results automatically
-- **Problem collection** -- 10 Project Euler solutions as testable problem definitions
 
-## Requirements
+## Running a macro
 
-- GNU Emacs 30+ (for `json-encode`)
-- Python 3.10+
-- pytest (`pip install -r requirements.txt`)
+Paste a macro into Emacs, select it, run `M-x read-kbd-macro`, switch to Calc and press `X`.
 
-## Quick start
+Or test from the command line:
+
+```bash
+emacs --batch -l elisp/calc-runner.el -f calc-runner--main "2 RET 3 +"
+```
+
+## Testing harness
+
+A Python + Elisp bridge runs Calc macros via `emacs --batch` and verifies results automatically. This is a development tool, not the main purpose of the project.
+
+**Requirements:** GNU Emacs 30+, Python 3.10+
 
 ```bash
 pip install -r requirements.txt
 python3 -m pytest tests/ -v
 ```
-
-One-off macro test:
-
-```bash
-python3 -c "from src.runner import CalcRunner; r = CalcRunner(); print(r.run_macro('v x 20 RET v R k l'))"
-```
-
-## How it works
-
-1. `elisp/calc-runner.el` -- loads Calc in batch mode, parses a macro string with `edmacro-parse-keys`, executes it with `execute-kbd-macro`, outputs JSON with the result and stack state
-2. `src/runner.py` -- Python wrapper that calls `emacs --batch`, parses the JSON output
-3. `tests/test_problems.py` -- parametrized pytest suite that verifies each problem macro produces the correct answer with a clean stack
 
 ## Project structure
 
@@ -43,10 +38,15 @@ docs/calc-reference.md  -- Calc RPN command reference
 docs/examples.md        -- 8 worked examples
 elisp/calc-runner.el    -- Elisp bridge (emacs --batch)
 src/runner.py           -- Python CalcRunner class
-src/problems.py         -- Problem definitions
+src/problems.py         -- Problem definitions (10 Project Euler solutions)
 tests/test_runner.py    -- Runner unit tests
 tests/test_problems.py  -- Parametrized problem tests
 ```
+
+## Related projects
+
+- [calc-problem-solving](https://github.com/occisn/calc-problem-solving) -- the original collection of solved Project Euler problems with Calc
+- [cl-lisp2calc](https://github.com/occisn/cl-lisp2calc) -- Common Lisp to Calc compiler
 
 ## Contributing
 
