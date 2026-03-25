@@ -2,7 +2,9 @@
 
 Comprehensive cheat sheet for writing Calc keyboard macros in RPN style. All commands use the stack-based (RPN) approach; algebraic entry (`'...`) is avoided.
 
-Manual: https://www.gnu.org/software/emacs/manual/html_mono/calc.html
+Sources:
+- Manual: https://www.gnu.org/software/emacs/manual/html_mono/calc.html
+- Reference card: https://www.gnu.org/software/emacs/refcards/pdf/calccard.pdf
 
 ## Solving a Math Problem
 
