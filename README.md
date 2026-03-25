@@ -4,9 +4,13 @@ Solve math problems with [GNU Emacs Calc](https://www.gnu.org/software/emacs/man
 
 ## Usage
 
-Give a math problem to an LLM (e.g. Claude). The LLM uses the reference docs and examples as context to produce a Calc RPN macro that solves it. The macro can then be tested within Emacs, either interactively or via the included batch harness.
+Give a math problem to an LLM (e.g. Claude). The LLM uses the reference docs and examples as context to produce a Calc RPN macro that solves it. The macro is injected into Emacs in order to get the result.
 
-For best results, point the LLM at:
+For instance, "10,001st prime number" returns ~2 SPC 10001 SPC 1 - Z< k n Z>~ and 104743.
+
+## Reference for LLM
+
+The LLM uses:
 - **[Calc RPN command reference](docs/calc-reference.md)** -- methodology, rules, and comprehensive command cheat sheet with reusable idioms
 - **[8 worked examples](docs/examples.md)** -- Project Euler solutions with annotated and compact macros
 
