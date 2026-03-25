@@ -19,6 +19,11 @@ Related projects:
 
 When the user poses a math problem, **automatically read** `docs/calc-reference.md` and `docs/examples.md` before writing any macro. Do not wait for the user to mention these files — they are always the starting point.
 
+Every solution must include:
+1. **Annotated macro** — keystroke groups with `;; stack state` comments showing the stack after each step
+2. **Compact macro** — single runnable line (strip comments, collapse whitespace)
+3. **Result** — run the compact macro via `emacs --batch` and report the output
+
 ## Commands
 
 **Test a macro:**
