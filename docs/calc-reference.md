@@ -671,6 +671,12 @@ Strings are vectors of integers (0–255). Use vector operations for manipulatio
 
 ## 24. Common Idioms
 
+### Floor division
+```
+/F
+```
+Stack input: `2: n  1: p`. Computes `floor(n / p)`. Consumes both.
+
 ### Number of digits
 ```
 H L F 1 +
