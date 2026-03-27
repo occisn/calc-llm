@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The project provides:
 - A comprehensive Calc RPN command reference (`docs/calc-reference.md`)
-- 8 worked examples with annotated and compact macros (`docs/examples.md`)
+- 8 examples of annotated and compact macros (`docs/examples-of-annotated-and-compact-macros.md`)
 - An Elisp bridge to run macros via `emacs --batch`
 
 Related projects:
@@ -17,7 +17,7 @@ Related projects:
 
 ## Solving a Math Problem
 
-When the user poses a math problem, **automatically read** `docs/calc-reference.md` and `docs/examples.md` before writing any macro. Do not wait for the user to mention these files — they are always the starting point.
+When the user poses a math problem, **automatically read** `docs/calc-reference.md` and `docs/examples-of-annotated-and-compact-macros.md` before writing any macro. Do not wait for the user to mention these files — they are always the starting point.
 
 Every solution must include:
 1. **Annotated macro** — keystroke groups with `;; stack state` comments showing the stack after each step
@@ -36,7 +36,7 @@ emacs --batch -l elisp/calc-runner.el -f calc-runner--main "2 RET 3 +"
 ```
 CLAUDE.md               — this file
 docs/calc-reference.md  — Calc RPN command reference
-docs/examples.md        — 8 worked examples
+docs/examples-of-annotated-and-compact-macros.md — 8 examples
 elisp/calc-runner.el    — Elisp bridge (emacs --batch)
 ```
 

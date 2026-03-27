@@ -12,7 +12,7 @@ For instance, "10,001st prime number" returns ~2 SPC 10001 SPC 1 - Z< k n Z>~ an
 
 The LLM uses:
 - **[Calc RPN command reference](docs/calc-reference.md)** -- methodology, rules, and comprehensive command cheat sheet with reusable idioms
-- **[8 worked examples](docs/examples.md)** -- Project Euler solutions with annotated and compact macros
+- **[8 examples of annotated and compact macros](docs/examples-of-annotated-and-compact-macros.md)**
 
 ## Running a macro
 
@@ -28,7 +28,7 @@ emacs --batch -l elisp/calc-runner.el -f calc-runner--main "2 RET 3 +"
 
 ```
 docs/calc-reference.md  -- Calc RPN command reference
-docs/examples.md        -- 8 worked examples
+docs/examples-of-annotated-and-compact-macros.md -- 8 examples
 elisp/calc-runner.el    -- Elisp bridge (emacs --batch)
 ```
 
