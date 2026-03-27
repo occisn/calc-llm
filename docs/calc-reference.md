@@ -195,6 +195,12 @@ a :     conditional if(a,b,c): if a≠0 then b, else c — consumes 3
 a {     membership test: 1 if a is in set b
 ```
 
+**Alternative with conditionals:** `a &` and `a |` can also be expressed using nested `Z[ Z: Z]`:
+```
+A B Z[ Z[ 1 Z: 0 Z] Z: DEL 0 Z]   logical AND: 1 only if both A and B are nonzero
+A B Z[ DEL 1 Z: Z[ 1 Z: 0 Z] Z]   logical OR:  1 if either A or B is nonzero
+```
+
 ## 7. Vectors
 
 ### Creation and Access
