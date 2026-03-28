@@ -6,7 +6,12 @@ Solve math problems with [GNU Emacs Calc](https://www.gnu.org/software/emacs/man
 
 Give a math problem to an LLM (e.g. Claude). The LLM uses the reference docs and examples as context to produce a Calc RPN macro that solves it. The macro is injected into Emacs in order to get the result.
 
-For instance, "10,001st prime number" returns ~2 SPC 10001 SPC 1 - Z< k n Z>~ and 104743.
+For instance, "10,001st prime number" returns `2 SPC 10001 SPC 1 - Z< k n Z>` and 104743.
+
+## Related projects
+
+\- [Problem solving in GNU Calc](https://github.com/occisn/calc-problem-solving)  
+\- [Converter](https://github.com/occisn/cl-lisp2calc) from Common Lisp to GNU Calc
 
 ## Reference for LLM
 
